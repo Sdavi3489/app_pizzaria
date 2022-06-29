@@ -1,5 +1,5 @@
 # PROJETO FINAL DE COMÉRCIO ELÉTRÔNICO
-**Integrantes
+**Integrantes**
 - Davi Soares Sousa Santos
 - Antony
 
