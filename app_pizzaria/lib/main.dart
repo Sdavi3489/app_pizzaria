@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   build(context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Aula Flutter',
+      title: 'App Pizzaria',
       home: HomePage(),
     );
   }
@@ -26,6 +26,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+
   var comidas = [];
 
   _getComidas() {
@@ -51,87 +52,19 @@ class HomePageState extends State<HomePage> {
             var foto = CircleAvatar(
               backgroundImage: NetworkImage(comidas[index].foto.toString()),
             );
-
+            
             return ListTile(
                 leading: foto,
                 title: Text(comidas[index].nome,
-                    style: const TextStyle(fontSize: 20, color: Colors.black)),
+                style: const TextStyle(fontSize: 20, color: Colors.black)),
                 subtitle: Text(comidas[index].descricao.toString()),
                 trailing: FloatingActionButton(
                   child: Icon(Icons.add_shopping_cart),
-                  onPressed: null,
+                  onPressed: (){
+                    print('Id do item comprado: ${comidas[index].id}');
+                  }
                 ));
           }),
     );
   }
 }
-
-
-/*void main() async {
-    var url = Uri.http('localhost:3000', '/');
-    var future = http.get(url);
-    future.then((response){
-      if(response.statusCode == 200){
-        print('Página carregada!');
-        print(response.body);
-      }else{
-        print('Erro');
-      }
-    });
-}*/
-
-
-/*
-ListView.builder(
-        itemCount: lista.length,
-        itemBuilder: (context,i){
-          dynamic contato = lista[i];
-          var avatar = CircleAvatar(backgroundImage: NetworkImage(contato['avatar']),);
-          return ListTile(
-              leading: avatar,
-              title: Text(contato['nome']),
-              subtitle: Text(contato['telefone']),
-              trailing: Container(
-                width: 100,
-                child: Row(
-                  children:[
-                    IconButton(icon: Icon(Icons.edit),onPressed:null),
-                    IconButton(icon: Icon(Icons.delete),onPressed:null),
-                  ],
-                ),
-              ),
-          );
-        }),
-    );
-  }*/
-
-
-  /*
-    @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Lista de Comidas Lanchonete')
-      ),
-      body: ListView.builder(
-        itemCount : comidas.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(
-              comidas[index].nome, 
-              style: const TextStyle(
-                fontSize: 20, 
-                color: Colors.black
-              )
-            ),
-            subtitle: Text(comidas[index].descricao.toString().substring(1, 30)+'...'),
-            trailing: FloatingActionButton(
-              child: Icon(Icons.add_shopping_cart),
-              onPressed: null,
-            )
-          );
-        }
-      ),
-    );
-}
-}*/
