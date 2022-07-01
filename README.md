@@ -17,3 +17,5 @@ Este projeto está relacionado ao projeto final realizado na disciplina de comé
 # Versões
 **1.0:**
 - Consumindo webservice para listar e comprar 1 produto.
+- Implementação das requisições GET E POST.
+- Desenvolvimento da lista e apresentando na tela.
