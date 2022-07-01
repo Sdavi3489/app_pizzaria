@@ -1,11 +1,14 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
+
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'comida.dart';
 //import 'http.dart';
 import 'http.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -20,6 +23,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// ignore: use_key_in_widget_constructors
 class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => HomePageState();
@@ -59,7 +63,7 @@ class HomePageState extends State<HomePage> {
                 style: const TextStyle(fontSize: 20, color: Colors.black)),
                 subtitle: Text(comidas[index].descricao.toString()),
                 trailing: FloatingActionButton(
-                  child: Icon(Icons.add_shopping_cart),
+                  child: const Icon(Icons.add_shopping_cart),
                   onPressed: (){
                     print('Id do item comprado: ${comidas[index].id}');
                     server_json.comprar(comidas[index].id);
