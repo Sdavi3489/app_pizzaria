@@ -57,6 +57,19 @@ app.get('/',(req,res)=>{
     )
 })
 
+app.post('/comprar/:id', (req, res) => {
+    console.log(req.body);
+    return res.json(
+    {
+        mensagem: 'Compra adicionada ao carrinho com sucesso',
+        dados:{
+            id: req.params.id,
+        }
+    }
+);
+});
+
+
 app.listen(
     8080,
     function () {

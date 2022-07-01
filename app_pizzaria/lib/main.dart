@@ -62,6 +62,7 @@ class HomePageState extends State<HomePage> {
                   child: Icon(Icons.add_shopping_cart),
                   onPressed: (){
                     print('Id do item comprado: ${comidas[index].id}');
+                    server_json.comprar(comidas[index].id);
                   }
                 ));
           }),

@@ -1,3 +1,4 @@
+import 'package:app_lanchonete/comida.dart';
 import 'package:http/http.dart' as http;
 
 class server_json {
@@ -7,8 +8,9 @@ class server_json {
     return await http.get(url);
   }
 
-  /*static Future comprar(int id) async {
-    var url = Uri.http('localhost:8080', '/comprar');
-    return await http.post(url, body: {'id': '$id'});
-  }*/
+  static Future comprar(int id) async {
+    var url = Uri.http('localhost:8080', '/comprar/$id');
+    var response =  await http.post(url, body:{'id':'$id'});
+    print(response.body);
+  }
 }
