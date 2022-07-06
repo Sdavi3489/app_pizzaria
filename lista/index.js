@@ -8,7 +8,7 @@ app.use(cors());
 
 app.use(express.json())
 
-app.get('/',(req,res)=>{
+app.get('/homepage',(req,res)=>{
     return res.json(
     [
         {
