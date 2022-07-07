@@ -1,11 +1,11 @@
-
 import 'dart:convert';
 
+import 'package:app_lanchonete/Rotas.dart';
 import 'package:app_lanchonete/http.dart';
+import 'package:app_lanchonete/telas/TelaLogin.dart';
 import 'package:flutter/material.dart';
 
 import '../comida.dart';
-
 
 // ignore: use_key_in_widget_constructors
 class HomePage extends StatefulWidget {
@@ -15,7 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-
   var comidas = [];
 
   _getComidas() {
@@ -34,27 +33,39 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Pizzaria')),
+      appBar: AppBar(
+        title: const Text('Pizzaria'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.logout,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.popAndPushNamed(context, '/login');
+            },
+          ),
+        ],
+      ),
       body: ListView.builder(
           itemCount: comidas.length,
           itemBuilder: (context, index) {
             var foto = CircleAvatar(
               backgroundImage: NetworkImage(comidas[index].foto.toString()),
             );
-            
+
             return ListTile(
                 leading: foto,
                 title: Text(comidas[index].nome,
-                style: const TextStyle(fontSize: 20, color: Colors.black)),
+                    style: const TextStyle(fontSize: 20, color: Colors.black)),
                 subtitle: Text(comidas[index].descricao.toString()),
                 trailing: FloatingActionButton(
-                  child: const Icon(Icons.add_shopping_cart),
-                  onPressed: (){
-                    // ignore: avoid_print
-                    print('Id do item comprado: ${comidas[index].id}');
-                    server_json.comprar(comidas[index].id);
-                  }
-                ));
+                    child: const Icon(Icons.add_shopping_cart),
+                    onPressed: () {
+                      // ignore: avoid_print
+                      print('Id do item comprado: ${comidas[index].id}');
+                      server_json.comprar(comidas[index].id);
+                    }));
           }),
     );
   }
