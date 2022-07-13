@@ -4,11 +4,15 @@ import 'package:flutter/material.dart';
 import '../widgets/inputText_app.dart';
 import '../widgets/inputText_senha.dart';
 import '../widgets/titulo_app.dart';
+import '../shared_prefs.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TelaLogin extends StatelessWidget {
   static String routeName = '/login';
   // ignore: prefer_const_constructors_in_immutables
   TelaLogin({super.key});
+
+  LoginController _controller = LoginController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,30 +45,38 @@ class TelaLogin extends StatelessWidget {
                       )),
                   inputText(placeholder: 'Email'),
                   inputTextSenha(placeholder: 'Senha'),
-                  SizedBox(
-                    width: double.infinity,
-                    child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, '/homepage', (route) => false);
-                          /*Navigator.pushNamed(
-                            context,
-                            '/homepage',
-                          );*/
-                          //Navigator.pushNamed(context, '/homepage',);
-                        },
-                        style: TextButton.styleFrom(
-                            primary: Colors.white,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 30,
-                              vertical: 10,
-                            ),
-                            textStyle: TextStyle(fontSize: 16),
-                            backgroundColor: Colors.blue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            )),
-                        child: Text('Entrar')),
+                  //width: double.infinity,
+                  ValueListenableBuilder<bool>(
+                    valueListenable: _controller.inloader,
+                    builder: (_, inLoader, __) => inLoader
+                        ? CircularProgressIndicator()
+                        : ElevatedButton(
+                            onPressed: () {
+                              _controller.autenticar().then((result) {
+                                if (result) {
+                                  Navigator.of(context)
+                                      .pushReplacementNamed('/homepage');
+                                } else {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: const Text('Falha no login!'),
+                                    duration: const Duration(seconds: 5),
+                                  ));
+                                }
+                              });
+                            },
+                            style: TextButton.styleFrom(
+                                primary: Colors.white,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 30,
+                                  vertical: 10,
+                                ),
+                                textStyle: TextStyle(fontSize: 16),
+                                backgroundColor: Colors.blue,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                )),
+                            child: Text('Entrar')),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

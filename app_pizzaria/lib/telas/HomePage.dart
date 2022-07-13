@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:app_lanchonete/Rotas.dart';
 import 'package:app_lanchonete/http.dart';
 import 'package:app_lanchonete/telas/TelaLogin.dart';
+import 'package:app_lanchonete/shared_prefs.dart';
 import 'package:flutter/material.dart';
 
 import '../comida.dart';
@@ -16,6 +17,18 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   var comidas = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.wait([
+      shared_prefs.logado(),
+      Future.delayed(Duration(seconds: 3)),
+    ]).then((value) => value[2]
+        ? Navigator.of(context).pushReplacementNamed('/homepage')
+        : Navigator.of(context).pushReplacementNamed('/login'));
+  }
 
   _getComidas() {
     server_json.listarComidas().then((response) {
@@ -35,6 +48,8 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pizzaria'),
+        automaticallyImplyLeading: false,
+        //essa função acima remove o botão automatico de back das rotas.
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -42,7 +57,9 @@ class HomePageState extends State<HomePage> {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.popAndPushNamed(context, '/login');
+              shared_prefs.logout();
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil('/login', (_) => true);
             },
           ),
         ],

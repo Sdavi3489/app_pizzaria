@@ -1,17 +1,21 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:app_lanchonete/shared_prefs.dart';
 
 // ignore: camel_case_types
 class inputTextSenha extends StatelessWidget {
   final String? placeholder;
   final String? obscureText;
   // ignore: prefer_const_constructors_in_immutables
-  inputTextSenha({super.key, this.placeholder,  this.obscureText});
+  inputTextSenha({super.key, this.placeholder, this.obscureText});
+  static final pass_controller = TextEditingController();
+  LoginController _controler = LoginController();
 
   @override
   Widget build(BuildContext context) {
-    return TextField(   
+    return TextField(
+      controller: pass_controller,
       obscureText: true,
       style: GoogleFonts.inter(
         fontSize: 16,
