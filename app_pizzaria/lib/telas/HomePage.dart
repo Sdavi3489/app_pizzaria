@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:app_lanchonete/Rotas.dart';
 import 'package:app_lanchonete/http.dart';
+import 'package:app_lanchonete/telas/Carrinho.dart';
 import 'package:app_lanchonete/telas/TelaLogin.dart';
 import 'package:app_lanchonete/shared_prefs.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   var comidas = [];
+  static var id_car, nome_prod, desc, foto_img, valor_prod;
 
   @override
   void initState() {
@@ -46,44 +48,56 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pizzaria'),
-        automaticallyImplyLeading: false,
-        //essa função acima remove o botão automatico de back das rotas.
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.logout,
-              color: Colors.white,
+        appBar: AppBar(
+          title: const Text('Pizzaria'),
+          automaticallyImplyLeading: false,
+          //essa função acima remove o botão automatico de back das rotas.
+          actions: <Widget>[
+            IconButton(
+                icon: const Icon(
+                  Icons.shopping_cart,
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/carrinho');
+                }),
+            IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                shared_prefs.logout();
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/login', (_) => true);
+              },
             ),
-            onPressed: () {
-              shared_prefs.logout();
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil('/login', (_) => true);
-            },
-          ),
-        ],
-      ),
-      body: ListView.builder(
-          itemCount: comidas.length,
-          itemBuilder: (context, index) {
-            var foto = CircleAvatar(
-              backgroundImage: NetworkImage(comidas[index].foto.toString()),
-            );
+          ],
+        ),
+        body: ListView.builder(
+            itemCount: comidas.length,
+            itemBuilder: (context, index) {
+              id_car = comidas[index].id.toString();
+              nome_prod = comidas[index].nome.toString();
+              desc = comidas[index].descricao.toString();
+              foto_img = comidas[index].foto.toString();
+              valor_prod = comidas[index].valor.toString();
 
-            return ListTile(
-                leading: foto,
-                title: Text(comidas[index].nome,
-                    style: const TextStyle(fontSize: 20, color: Colors.black)),
-                subtitle: Text(comidas[index].descricao.toString()),
-                trailing: FloatingActionButton(
-                    child: const Icon(Icons.add_shopping_cart),
-                    onPressed: () {
-                      // ignore: avoid_print
-                      print('Id do item comprado: ${comidas[index].id}');
-                      server_json.comprar(comidas[index].id);
-                    }));
-          }),
-    );
+              var foto = CircleAvatar(
+                backgroundImage: NetworkImage(comidas[index].foto.toString()),
+              );
+
+              return ListTile(
+                  leading: foto,
+                  title: Text(comidas[index].nome,
+                      style:
+                          const TextStyle(fontSize: 20, color: Colors.black)),
+                  subtitle: Text(comidas[index].descricao.toString()),
+                  trailing: FloatingActionButton(
+                      child: const Icon(Icons.add_shopping_cart),
+                      onPressed: () {
+                        server_json.comprar(
+                            id_car, nome_prod, desc, foto_img, valor_prod);
+                      }));
+            }));
   }
 }

@@ -6,6 +6,7 @@ import '../widgets/inputText_senha.dart';
 import '../widgets/titulo_app.dart';
 import '../shared_prefs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:app_lanchonete/http.dart';
 
 class TelaLogin extends StatelessWidget {
   static String routeName = '/login';
@@ -110,7 +111,3 @@ class TelaLogin extends StatelessWidget {
     );
   }
 }
-
-
-
-// ignore: camel_case_types

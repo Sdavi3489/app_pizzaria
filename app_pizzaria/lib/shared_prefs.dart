@@ -1,9 +1,15 @@
 import 'dart:convert';
+import 'package:app_lanchonete/telas/TelaRegistro.dart';
+import 'package:app_lanchonete/user.dart';
+import '../widgets/inputText_username.dart';
 import 'widgets/inputText_app.dart';
 import 'widgets/inputText_senha.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'main.dart';
+import 'package:app_lanchonete/http.dart';
+import 'package:app_lanchonete/widgets/inputText_endereco.dart';
+import 'package:app_lanchonete/widgets/inputText_telefone.dart';
 
 class shared_prefs {
   static final String _key = 'key';
@@ -81,6 +87,36 @@ class shared_prefs {
 
 class LoginController {
   ValueNotifier<bool> inloader = ValueNotifier<bool>(false);
+  var users = [server_json.user];
+  //var js = json.decode(server_json.user);
+  static var email;
+  static var senha;
+
+  /*_getuser() {
+    server_json.login_user().then((response) {
+      Iterable lista = json.decode(response.body);
+      users = lista.map((model) => User.fromJson(model)).toList();
+    });
+  }*/
+
+  /*_getusers() {
+    server_json
+        .add_user(
+            //TelaRegistro.id,
+            inputTextusername.username_controller.text.toString(),
+            inputTextTelefone.tel_controller.text.toString(),
+            inputTextEndereco.end_controller.text.toString(),
+            inputText.login_controller.text.toString(),
+            inputTextSenha.pass_controller.text.toString())
+        .then((response) {
+      Iterable lista = json.decode(response.body);
+      users = lista.map((model) => User.fromJson(model)).toList();
+    });
+  }
+
+  LoginController() {
+    _getusers();
+  }*/
 
   //String? _login;
   //setLogin(String value) => _login = value;
@@ -88,6 +124,7 @@ class LoginController {
   //setPass(String value) => _pass = value;
 
   Future<bool> autenticar() async {
+    bool? sts;
     final prefs = await SharedPreferences.getInstance();
     final _login = prefs.getString('login') ??
         '${inputText.login_controller.text.toString()}';
@@ -96,7 +133,15 @@ class LoginController {
     inloader.value = true;
     await Future.delayed(Duration(seconds: 3));
     inloader.value = false;
-    if (_login == 'admin' && _pass == '123') {
+
+    for (var i = 0; i <= users.length; i++) {
+      email = users[i].contains(inputText.login_controller.text.toString());
+      senha = users[i].contains(inputTextSenha.pass_controller.text.toString());
+      print(users.last);
+      return email && senha;
+    }
+
+    if (_login == email && _pass == senha) {
       print('login: $_login, pass: $_pass');
       shared_prefs.save();
       return true;

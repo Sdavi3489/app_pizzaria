@@ -57,18 +57,78 @@ app.get('/homepage',(req,res)=>{
     )
 })
 
-app.post('/comprar/:id', (req, res) => {
+app.post('/comprar', (req, res) => {
     console.log(req.body);
     return res.json(
-    {
-        mensagem: 'Compra adicionada ao carrinho com sucesso',
-        dados:{
-            id: req.params.id,
+    
+        {
+            id: req.body.id,
+            nome: req.body.nome,
+            descricao: req.body.descricao,
+            foto: req.body.foto,
+            valor: req.body.valor
+            
         }
-    }
+    
 );
 });
 
+/*app.post('/comprar/:id/:nome/:descricao/:foto/:valor', (req, res) => {
+    console.log(req.body);
+    return res.json(
+    
+        {
+
+            id: req.params.id,
+            nome: req.params.nome,
+            descricao: req.params.descricao,
+            foto: req.params.foto,
+            valor: req.params.valor
+            
+        }
+    
+);
+});*/
+
+app.post('/:nome/:telefone/:endereco/:email/:senha', (req, res) => {
+    console.log(req.body);
+    return res.json(
+    [
+        {
+                
+            //id: req.params.id,
+            nome: req.params.nome,
+            telefone: req.params.telefone,
+            endereco: req.params.endereco,
+            email: req.params.email,
+            senha: req.params.senha,
+            
+        }
+    ]
+);
+});
+
+
+/*app.post('/user', (req, res) => {
+    console.log(req.body);
+    return res.json(
+        [
+            {
+            
+            //id: req.body.id,
+            nome: req.body.nome,
+            telefone: req.body.telefone,
+            endereco: req.body.endereco,
+            email: req.body.email,
+            senha: req.body.senha
+        }
+    ]
+    );
+})
+*/
+/*app.get('/user', (req, res) => {
+    return res.send(req.body)
+})*/
 
 app.listen(
     8080,
@@ -76,3 +136,43 @@ app.listen(
         console.log('Inicialização OK')
     }
 );
+
+
+
+
+/*app.post('/:id/:nome/:telefone/:endereco/:email/:senha', (req, res) => {
+    console.log(req.body);
+    return res.json(
+    {
+        mensagem: 'Usuário registrado com sucesso',
+        dados:[{
+            
+            id: req.body.id,
+            nome: req.body.nome,
+            telefone: req.body.telefone,
+            endereco: req.body.endereco,
+            email: req.body.email,
+            senha: req.body.senha,
+        }]
+    }
+);
+});*/
+
+
+/*
+app.post('/comprar/:id/:nome/:descricao/:foto/:valor', (req, res) => {
+    console.log(req.body);
+    return res.json(
+    {
+        mensagem: 'Compra adicionada ao carrinho com sucesso',
+        dados:{
+            id: req.params.id,
+            nome: req.params.nome,
+            descricao: req.params.descricao,
+            foto: req.params.foto,
+            valor: req.params.valor
+        }
+    }
+);
+});
+*/
