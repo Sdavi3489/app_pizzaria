@@ -3,7 +3,7 @@ class Compra {
   String? nome;
   String? descricao;
   String? foto;
-  int? valor;
+  String? valor;
 
   Compra({this.id, this.nome, this.descricao, this.foto, this.valor});
 

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:html';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:http/http.dart' as http;
@@ -17,35 +18,26 @@ class server_json {
 
   static Future comprar(String id, String nome, String descricao, String foto,
       String valor) async {
-    var url = Uri.http('localhost:8080', '/comprar');
-    var response = await http.post(url, body: {
+    Map data = {
       'id': '$id',
       'nome': '$nome',
       'descricao': '$descricao',
       'foto': '$foto',
       'valor': '$valor'
-    });
+    };
+
+    var body = json.encode(data);
+
+    var url = Uri.http('localhost:8080', '/comprar');
+    var response = await http.post(url,
+        headers: {
+          "Content-Type": "application/json",
+          "accept": "application/json"
+        },
+        body: body);
     print(response.body);
     compras = response.body;
-    // ignore: avoid_print
-    //return response.body;
   }
-
-  /*static Future comprar(
-      int id, String nome, String descricao, String foto, String valor) async {
-    var url = Uri.http(
-        'localhost:8080', '/comprar/$id/$nome/$descricao/$foto/$valor');
-    var response = await http.post(url, body: {
-      'id': '$id',
-      'nome': '$nome',
-      'descricao': '$descricao',
-      'foto': '$foto',
-      'valor': '$valor'
-    });
-    //compras.add(response.body);
-    // ignore: avoid_print
-    compras = response.body;
-  }*/
 
   static Future add_user(String nome, String telefone, String endereco,
       String email, String senha) async {
@@ -59,19 +51,10 @@ class server_json {
       'email': email,
       'senha': senha
     });
-    //list.add(response.body);
+
     user = response.body;
     print(response.body);
-    //print(list);
-    //print(list.length); // torcar para await http.post para retornar
   }
-
-  /*static Future login_user(String nome, String telefone, String endereco,
-      String email, String senha) async {
-    var url = Uri.http('localhost:8080', '/user');
-    //var url = Uri.http('192.168.1.67:53272', '/');
-    return await http.get(url);
-  }*/
 }
 
 
@@ -117,3 +100,19 @@ class server_json {
     print(response.body);
   }
 */
+
+  /*static Future comprar(
+      int id, String nome, String descricao, String foto, String valor) async {
+    var url = Uri.http(
+        'localhost:8080', '/comprar/$id/$nome/$descricao/$foto/$valor');
+    var response = await http.post(url, body: {
+      'id': '$id',
+      'nome': '$nome',
+      'descricao': '$descricao',
+      'foto': '$foto',
+      'valor': '$valor'
+    });
+    //compras.add(response.body);
+    // ignore: avoid_print
+    compras = response.body;
+  }*/

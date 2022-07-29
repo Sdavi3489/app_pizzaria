@@ -6,7 +6,7 @@ import 'package:app_lanchonete/telas/Carrinho.dart';
 import 'package:app_lanchonete/telas/TelaLogin.dart';
 import 'package:app_lanchonete/shared_prefs.dart';
 import 'package:flutter/material.dart';
-
+import 'package:app_lanchonete/Compra.dart';
 import '../comida.dart';
 
 // ignore: use_key_in_widget_constructors
@@ -19,7 +19,6 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   var comidas = [];
   static var id_car, nome_prod, desc, foto_img, valor_prod;
-
   @override
   void initState() {
     super.initState();
@@ -76,14 +75,15 @@ class HomePageState extends State<HomePage> {
         body: ListView.builder(
             itemCount: comidas.length,
             itemBuilder: (context, index) {
-              id_car = comidas[index].id.toString();
-              nome_prod = comidas[index].nome.toString();
-              desc = comidas[index].descricao.toString();
-              foto_img = comidas[index].foto.toString();
-              valor_prod = comidas[index].valor.toString();
+              var produto = comidas[index];
+              id_car = produto.id.toString();
+              nome_prod = produto.nome.toString();
+              desc = produto.descricao.toString();
+              foto_img = produto.foto.toString();
+              valor_prod = produto.valor.toString();
 
               var foto = CircleAvatar(
-                backgroundImage: NetworkImage(comidas[index].foto.toString()),
+                backgroundImage: NetworkImage(produto.foto.toString()),
               );
 
               return ListTile(
