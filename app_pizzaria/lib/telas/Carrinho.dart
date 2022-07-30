@@ -1,3 +1,4 @@
+//carrinho
 import 'dart:convert';
 import 'dart:js_util';
 import 'package:app_lanchonete/comida.dart';
